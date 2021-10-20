@@ -1,0 +1,604 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BBMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbAdmin">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbBloodBank">
+          <Key>
+            <PropertyRef Name="BloodBankId" />
+          </Key>
+          <Property Name="BloodBankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BloodBankName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbBloodStock">
+          <Key>
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="StockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BloodBankId" Type="int" Nullable="false" />
+          <Property Name="APositive" Type="int" Nullable="false" />
+          <Property Name="BPositive" Type="int" Nullable="false" />
+          <Property Name="OPositive" Type="int" Nullable="false" />
+          <Property Name="ABPositive" Type="int" Nullable="false" />
+          <Property Name="ANegative" Type="int" Nullable="false" />
+          <Property Name="BNegative" Type="int" Nullable="false" />
+          <Property Name="ONegative" Type="int" Nullable="false" />
+          <Property Name="ABNegative" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbEventRegistration">
+          <Key>
+            <PropertyRef Name="RegId" />
+          </Key>
+          <Property Name="RegId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="IsDonated" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbEvents">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BloodBankId" Type="int" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EventDate" Type="date" Nullable="false" />
+          <Property Name="EventTime" Type="datetime" Nullable="false" />
+          <Property Name="EventClosing" Type="date" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbHistory">
+          <Key>
+            <PropertyRef Name="BloodTransactionId" />
+          </Key>
+          <Property Name="BloodTransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DonationDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbNotification">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Content" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact" Type="bigint" Nullable="false" />
+          <Property Name="AadharNumber" Type="bigint" Nullable="false" />
+          <Property Name="BloodGroup" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="HealthCondition" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDonor" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tb_BloodStock_tb_BloodStock">
+          <End Role="tbBloodBank" Type="Self.tbBloodBank" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbBloodStock" Type="Self.tbBloodStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBloodBank">
+              <PropertyRef Name="BloodBankId" />
+            </Principal>
+            <Dependent Role="tbBloodStock">
+              <PropertyRef Name="BloodBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Events_tb_BloodBank">
+          <End Role="tbBloodBank" Type="Self.tbBloodBank" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbEvents" Type="Self.tbEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBloodBank">
+              <PropertyRef Name="BloodBankId" />
+            </Principal>
+            <Dependent Role="tbEvents">
+              <PropertyRef Name="BloodBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_History_tb_User">
+          <End Role="tbUser" Type="Self.tbUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbHistory" Type="Self.tbHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tbHistory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbEventRegistration_tbEvents">
+          <End Role="tbEvents" Type="Self.tbEvents" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbEventRegistration" Type="Self.tbEventRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbEvents">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="tbEventRegistration">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbEventRegistration_tbUser">
+          <End Role="tbUser" Type="Self.tbUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbEventRegistration" Type="Self.tbEventRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tbEventRegistration">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spGetBloodStockByBloodBank" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetEventRegisterDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bloodBankId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetEventsByBloodBank" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="BBMSDBModelStoreContainer">
+          <EntitySet Name="tbAdmin" EntityType="Self.tbAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbBloodBank" EntityType="Self.tbBloodBank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbBloodStock" EntityType="Self.tbBloodStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbEventRegistration" EntityType="Self.tbEventRegistration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbEvents" EntityType="Self.tbEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbHistory" EntityType="Self.tbHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbNotification" EntityType="Self.tbNotification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbUser" EntityType="Self.tbUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tb_BloodStock_tb_BloodStock" Association="Self.FK_tb_BloodStock_tb_BloodStock">
+            <End Role="tbBloodBank" EntitySet="tbBloodBank" />
+            <End Role="tbBloodStock" EntitySet="tbBloodStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Events_tb_BloodBank" Association="Self.FK_tb_Events_tb_BloodBank">
+            <End Role="tbBloodBank" EntitySet="tbBloodBank" />
+            <End Role="tbEvents" EntitySet="tbEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_History_tb_User" Association="Self.FK_tb_History_tb_User">
+            <End Role="tbUser" EntitySet="tbUser" />
+            <End Role="tbHistory" EntitySet="tbHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbEventRegistration_tbEvents" Association="Self.FK_tbEventRegistration_tbEvents">
+            <End Role="tbEvents" EntitySet="tbEvents" />
+            <End Role="tbEventRegistration" EntitySet="tbEventRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbEventRegistration_tbUser" Association="Self.FK_tbEventRegistration_tbUser">
+            <End Role="tbUser" EntitySet="tbUser" />
+            <End Role="tbEventRegistration" EntitySet="tbEventRegistration" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BBMSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BBMSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbAdmins" EntityType="BBMSDBModel.tbAdmin" />
+          <EntitySet Name="tbBloodBanks" EntityType="BBMSDBModel.tbBloodBank" />
+          <EntitySet Name="tbEventRegistrations" EntityType="BBMSDBModel.tbEventRegistration" />
+          <EntitySet Name="tbEvents" EntityType="BBMSDBModel.tbEvent" />
+          <EntitySet Name="tbHistories" EntityType="BBMSDBModel.tbHistory" />
+          <EntitySet Name="tbNotifications" EntityType="BBMSDBModel.tbNotification" />
+          <EntitySet Name="tbUsers" EntityType="BBMSDBModel.tbUser" />
+          <AssociationSet Name="FK_tb_Events_tb_BloodBank" Association="BBMSDBModel.FK_tb_Events_tb_BloodBank">
+            <End Role="tbBloodBank" EntitySet="tbBloodBanks" />
+            <End Role="tbEvent" EntitySet="tbEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbEventRegistration_tbEvents" Association="BBMSDBModel.FK_tbEventRegistration_tbEvents">
+            <End Role="tbEvent" EntitySet="tbEvents" />
+            <End Role="tbEventRegistration" EntitySet="tbEventRegistrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbEventRegistration_tbUser" Association="BBMSDBModel.FK_tbEventRegistration_tbUser">
+            <End Role="tbUser" EntitySet="tbUsers" />
+            <End Role="tbEventRegistration" EntitySet="tbEventRegistrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_History_tb_User" Association="BBMSDBModel.FK_tb_History_tb_User">
+            <End Role="tbUser" EntitySet="tbUsers" />
+            <End Role="tbHistory" EntitySet="tbHistories" />
+          </AssociationSet>
+          <FunctionImport Name="spGetEventsByBloodBank" ReturnType="Collection(BBMSDBModel.spGetEventsByBloodBank_Result)" />
+          <EntitySet Name="tbBloodStocks" EntityType="BBMSDBModel.tbBloodStock" />
+          <AssociationSet Name="FK_tb_BloodStock_tb_BloodStock" Association="BBMSDBModel.FK_tb_BloodStock_tb_BloodStock">
+            <End Role="tbBloodBank" EntitySet="tbBloodBanks" />
+            <End Role="tbBloodStock" EntitySet="tbBloodStocks" />
+          </AssociationSet>
+          <FunctionImport Name="GetBloodBankStock" ReturnType="Collection(BBMSDBModel.spGetBloodStockByBloodBank_Result)" />
+          <FunctionImport Name="GetRegisterDetails" ReturnType="Collection(BBMSDBModel.spGetEventRegisterDetails_Result)">
+            <Parameter Name="bloodBankId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="tbAdmin">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbBloodBank">
+          <Key>
+            <PropertyRef Name="BloodBankId" />
+          </Key>
+          <Property Name="BloodBankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BloodBankName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbEvents" Relationship="BBMSDBModel.FK_tb_Events_tb_BloodBank" FromRole="tbBloodBank" ToRole="tbEvent" />
+          <NavigationProperty Name="tbBloodStocks" Relationship="BBMSDBModel.FK_tb_BloodStock_tb_BloodStock" FromRole="tbBloodBank" ToRole="tbBloodStock" />
+        </EntityType>
+        <EntityType Name="tbEventRegistration">
+          <Key>
+            <PropertyRef Name="RegId" />
+          </Key>
+          <Property Name="RegId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="IsDonated" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbEvent" Relationship="BBMSDBModel.FK_tbEventRegistration_tbEvents" FromRole="tbEventRegistration" ToRole="tbEvent" />
+          <NavigationProperty Name="tbUser" Relationship="BBMSDBModel.FK_tbEventRegistration_tbUser" FromRole="tbEventRegistration" ToRole="tbUser" />
+        </EntityType>
+        <EntityType Name="tbEvent">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BloodBankId" Type="Int32" Nullable="false" />
+          <Property Name="EventName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EventTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventClosing" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbBloodBank" Relationship="BBMSDBModel.FK_tb_Events_tb_BloodBank" FromRole="tbEvent" ToRole="tbBloodBank" />
+          <NavigationProperty Name="tbEventRegistrations" Relationship="BBMSDBModel.FK_tbEventRegistration_tbEvents" FromRole="tbEvent" ToRole="tbEventRegistration" />
+        </EntityType>
+        <EntityType Name="tbHistory">
+          <Key>
+            <PropertyRef Name="BloodTransactionId" />
+          </Key>
+          <Property Name="BloodTransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DonationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="tbUser" Relationship="BBMSDBModel.FK_tb_History_tb_User" FromRole="tbHistory" ToRole="tbUser" />
+        </EntityType>
+        <EntityType Name="tbNotification">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="Int64" Nullable="false" />
+          <Property Name="AadharNumber" Type="Int64" Nullable="false" />
+          <Property Name="BloodGroup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HealthCondition" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsDonor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbEventRegistrations" Relationship="BBMSDBModel.FK_tbEventRegistration_tbUser" FromRole="tbUser" ToRole="tbEventRegistration" />
+          <NavigationProperty Name="tbHistories" Relationship="BBMSDBModel.FK_tb_History_tb_User" FromRole="tbUser" ToRole="tbHistory" />
+        </EntityType>
+        <Association Name="FK_tb_Events_tb_BloodBank">
+          <End Type="BBMSDBModel.tbBloodBank" Role="tbBloodBank" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BBMSDBModel.tbEvent" Role="tbEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBloodBank">
+              <PropertyRef Name="BloodBankId" />
+            </Principal>
+            <Dependent Role="tbEvent">
+              <PropertyRef Name="BloodBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbEventRegistration_tbEvents">
+          <End Type="BBMSDBModel.tbEvent" Role="tbEvent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BBMSDBModel.tbEventRegistration" Role="tbEventRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbEvent">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="tbEventRegistration">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbEventRegistration_tbUser">
+          <End Type="BBMSDBModel.tbUser" Role="tbUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BBMSDBModel.tbEventRegistration" Role="tbEventRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tbEventRegistration">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_History_tb_User">
+          <End Type="BBMSDBModel.tbUser" Role="tbUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BBMSDBModel.tbHistory" Role="tbHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tbHistory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spGetEventRegisterDetails_Result">
+          <Property Type="Int32" Name="RegId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="AadharNumber" Nullable="false" />
+          <Property Type="Int64" Name="Contact" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="IsDonated" Nullable="false" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetEventsByBloodBank_Result">
+          <Property Type="Int32" Name="BloodBankId" Nullable="false" />
+          <Property Type="String" Name="BloodBankName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="EventDate" Nullable="false" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="EventClosing" Nullable="false" />
+          <Property Type="DateTime" Name="EventTime" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="EventId" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="tbBloodStock">
+          <Key>
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="StockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BloodBankId" Type="Int32" Nullable="false" />
+          <Property Name="APositive" Type="Int32" Nullable="false" />
+          <Property Name="BPositive" Type="Int32" Nullable="false" />
+          <Property Name="OPositive" Type="Int32" Nullable="false" />
+          <Property Name="ABPositive" Type="Int32" Nullable="false" />
+          <Property Name="ANegative" Type="Int32" Nullable="false" />
+          <Property Name="BNegative" Type="Int32" Nullable="false" />
+          <Property Name="ONegative" Type="Int32" Nullable="false" />
+          <Property Name="ABNegative" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbBloodBank" Relationship="BBMSDBModel.FK_tb_BloodStock_tb_BloodStock" FromRole="tbBloodStock" ToRole="tbBloodBank" />
+        </EntityType>
+        <Association Name="FK_tb_BloodStock_tb_BloodStock">
+          <End Type="BBMSDBModel.tbBloodBank" Role="tbBloodBank" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BBMSDBModel.tbBloodStock" Role="tbBloodStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBloodBank">
+              <PropertyRef Name="BloodBankId" />
+            </Principal>
+            <Dependent Role="tbBloodStock">
+              <PropertyRef Name="BloodBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spGetBloodStockByBloodBank_Result">
+          <Property Type="String" Name="BloodBankName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="Contact" Nullable="false" />
+          <Property Type="Int32" Name="ABNegative" Nullable="false" />
+          <Property Type="Int32" Name="ABPositive" Nullable="false" />
+          <Property Type="Int32" Name="ANegative" Nullable="false" />
+          <Property Type="Int32" Name="APositive" Nullable="false" />
+          <Property Type="Int32" Name="BNegative" Nullable="false" />
+          <Property Type="Int32" Name="BPositive" Nullable="false" />
+          <Property Type="Int32" Name="ONegative" Nullable="false" />
+          <Property Type="Int32" Name="OPositive" Nullable="false" />
+          <Property Type="Int32" Name="StockId" Nullable="false" />
+          <Property Type="Int32" Name="BloodBankId" Nullable="false" />
+        </ComplexType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BBMSDBModelStoreContainer" CdmEntityContainer="BBMSDBEntities">
+          <EntitySetMapping Name="tbAdmins">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbAdmin">
+              <MappingFragment StoreEntitySet="tbAdmin">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbBloodBanks">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbBloodBank">
+              <MappingFragment StoreEntitySet="tbBloodBank">
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="BloodBankName" ColumnName="BloodBankName" />
+                <ScalarProperty Name="BloodBankId" ColumnName="BloodBankId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbEventRegistrations">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbEventRegistration">
+              <MappingFragment StoreEntitySet="tbEventRegistration">
+                <ScalarProperty Name="IsDonated" ColumnName="IsDonated" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="RegId" ColumnName="RegId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbEvents">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbEvent">
+              <MappingFragment StoreEntitySet="tbEvents">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="EventClosing" ColumnName="EventClosing" />
+                <ScalarProperty Name="EventTime" ColumnName="EventTime" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="BloodBankId" ColumnName="BloodBankId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbHistories">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbHistory">
+              <MappingFragment StoreEntitySet="tbHistory">
+                <ScalarProperty Name="DonationDate" ColumnName="DonationDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="BloodTransactionId" ColumnName="BloodTransactionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbNotifications">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbNotification">
+              <MappingFragment StoreEntitySet="tbNotification">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbUsers">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbUser">
+              <MappingFragment StoreEntitySet="tbUser">
+                <ScalarProperty Name="IsDonor" ColumnName="IsDonor" />
+                <ScalarProperty Name="HealthCondition" ColumnName="HealthCondition" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="AadharNumber" ColumnName="AadharNumber" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetEventsByBloodBank" FunctionName="BBMSDBModel.Store.spGetEventsByBloodBank">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BBMSDBModel.spGetEventsByBloodBank_Result">
+                <ScalarProperty Name="BloodBankId" ColumnName="BloodBankId" />
+                <ScalarProperty Name="BloodBankName" ColumnName="BloodBankName" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventClosing" ColumnName="EventClosing" />
+                <ScalarProperty Name="EventTime" ColumnName="EventTime" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tbBloodStocks">
+            <EntityTypeMapping TypeName="BBMSDBModel.tbBloodStock">
+              <MappingFragment StoreEntitySet="tbBloodStock">
+                <ScalarProperty Name="ABNegative" ColumnName="ABNegative" />
+                <ScalarProperty Name="ONegative" ColumnName="ONegative" />
+                <ScalarProperty Name="BNegative" ColumnName="BNegative" />
+                <ScalarProperty Name="ANegative" ColumnName="ANegative" />
+                <ScalarProperty Name="ABPositive" ColumnName="ABPositive" />
+                <ScalarProperty Name="OPositive" ColumnName="OPositive" />
+                <ScalarProperty Name="BPositive" ColumnName="BPositive" />
+                <ScalarProperty Name="APositive" ColumnName="APositive" />
+                <ScalarProperty Name="BloodBankId" ColumnName="BloodBankId" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetBloodBankStock" FunctionName="BBMSDBModel.Store.spGetBloodStockByBloodBank">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BBMSDBModel.spGetBloodStockByBloodBank_Result">
+                <ScalarProperty Name="BloodBankName" ColumnName="BloodBankName" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ABNegative" ColumnName="ABNegative" />
+                <ScalarProperty Name="ABPositive" ColumnName="ABPositive" />
+                <ScalarProperty Name="ANegative" ColumnName="ANegative" />
+                <ScalarProperty Name="APositive" ColumnName="APositive" />
+                <ScalarProperty Name="BNegative" ColumnName="BNegative" />
+                <ScalarProperty Name="BPositive" ColumnName="BPositive" />
+                <ScalarProperty Name="ONegative" ColumnName="ONegative" />
+                <ScalarProperty Name="OPositive" ColumnName="OPositive" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="BloodBankId" ColumnName="BloodBankId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRegisterDetails" FunctionName="BBMSDBModel.Store.spGetEventRegisterDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BBMSDBModel.spGetEventRegisterDetails_Result">
+                <ScalarProperty Name="RegId" ColumnName="RegId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AadharNumber" ColumnName="AadharNumber" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsDonated" ColumnName="IsDonated" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

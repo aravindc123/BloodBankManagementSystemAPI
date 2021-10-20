@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CFDEB34B-1704-46EE-AB3D-21510D1C4932}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BloodBankDataAccessLayer</RootNamespace>
+    <AssemblyName>BloodBankDataAccessLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminData.cs" />
+    <Compile Include="BloodBankData.cs" />
+    <Compile Include="BloodBankDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BloodBankDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BloodBankDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BloodBankDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BloodBankDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Authentication.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="spGetBloodStockByBloodBank_Result.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetEventRegisterDetails_Result.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetEventsByBloodBank_Result.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbAdmin.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbBloodBank.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbBloodStock.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbEvent.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbEventRegistration.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbHistory.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbNotification.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbUser.cs">
+      <DependentUpon>BloodBankDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BloodBankEntityLayer\BloodBankEntityLayer.csproj">
+      <Project>{1b327b45-038e-46ab-b877-05e1cd661281}</Project>
+      <Name>BloodBankEntityLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="BloodBankDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BloodBankDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="BloodBankDB.edmx.diagram">
+      <DependentUpon>BloodBankDB.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BloodBankDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BloodBankDB.Context.cs</LastGenOutput>
+      <DependentUpon>BloodBankDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="BloodBankDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BloodBankDB.edmx</DependentUpon>
+      <LastGenOutput>BloodBankDB.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

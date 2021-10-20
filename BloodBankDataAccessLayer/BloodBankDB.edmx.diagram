@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="682d9d16bfe149e79c23c543bbd270d3" Name="Diagram1">
+        <EntityTypeShape EntityType="BBMSDBModel.tbAdmin" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BBMSDBModel.tbBloodBank" Width="1.5" PointX="1.5" PointY="11.25" />
+        <EntityTypeShape EntityType="BBMSDBModel.tbEventRegistration" Width="1.5" PointX="3" PointY="2.375" />
+        <EntityTypeShape EntityType="BBMSDBModel.tbEvent" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="BBMSDBModel.tbHistory" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="BBMSDBModel.tbNotification" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="BBMSDBModel.tbUser" Width="1.5" PointX="0.75" PointY="1.75" />
+        <AssociationConnector Association="BBMSDBModel.FK_tb_Events_tb_BloodBank" />
+        <AssociationConnector Association="BBMSDBModel.FK_tbEventRegistration_tbEvents" />
+        <AssociationConnector Association="BBMSDBModel.FK_tbEventRegistration_tbUser" />
+        <AssociationConnector Association="BBMSDBModel.FK_tb_History_tb_User" />
+        <EntityTypeShape EntityType="BBMSDBModel.tbBloodStock" Width="1.5" PointX="3.75" PointY="10.875" />
+        <AssociationConnector Association="BBMSDBModel.FK_tb_BloodStock_tb_BloodStock" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
